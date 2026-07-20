@@ -1,0 +1,134 @@
+mutation CreateUser($email: String!, $displayName: String!, $preferences: String) @auth(level: USER) {
+  user_insert(data: {id_expr: "auth.uid", email: $email, displayName: $displayName, preferences: $preferences})
+}
+
+mutation UpdateUser($displayName: String, $preferences: String) @auth(level: USER) {
+  user_update(key: {id_expr: "auth.uid"}, data: {displayName: $displayName, preferences: $preferences})
+}
+
+mutation DeleteUser @auth(level: USER) {
+  user_delete(key: {id_expr: "auth.uid"})
+}
+
+query GetUser @auth(level: USER) {
+  user(key: {id_expr: "auth.uid"}) {
+    email
+    displayName
+    preferences
+  }
+}
+
+query ListUsers @auth(level: PUBLIC, insecureReason: "Public list of user profiles is allowed for networking.") {
+  users {
+    id
+    displayName
+  }
+}
+
+mutation CreateConversation($title: String!) @auth(level: USER) {
+  conversation_insert(data: {title: $title, userId: {_expr: "auth.uid"}})
+}
+
+mutation UpdateConversation($id: UUID!, $title: String!) @auth(level: USER) {
+  conversation_update(key: {id: $id}, data: {title: $title})
+}
+
+mutation DeleteConversation($id: UUID!) @auth(level: USER) {
+  conversation_delete(key: {id: $id})
+}
+
+query GetConversation($id: UUID!) @auth(level: USER) {
+  conversation(key: {id: $id}) {
+    title
+    createdAt
+  }
+}
+
+query ListMyConversations @auth(level: USER) {
+  conversations(where: {userId: {eq_expr: "auth.uid"}}) {
+    id
+    title
+  }
+}
+
+mutation CreateMessage($conversationId: UUID!, $role: String!, $content: String!) @auth(level: USER) {
+  message_insert(data: {conversationId: $conversationId, role: $role, content: $content, createdAt_expr: "request.time"})
+}
+
+mutation UpdateMessage($id: UUID!, $content: String!) @auth(level: USER) {
+  message_update(key: {id: $id}, data: {content: $content})
+}
+
+mutation DeleteMessage($id: UUID!) @auth(level: USER) {
+  message_delete(key: {id: $id})
+}
+
+query GetMessage($id: UUID!) @auth(level: USER) {
+  message(key: {id: $id}) {
+    role
+    content
+  }
+}
+
+query ListMessages($conversationId: UUID!) @auth(level: USER) {
+  messages(where: {conversationId: {eq: $conversationId}}) {
+    id
+    role
+    content
+  }
+}
+
+mutation CreateTask($title: String!, $status: String!, $dueDate: Date, $priority: Int) @auth(level: USER) {
+  task_insert(data: {title: $title, status: $status, dueDate: $dueDate, priority: $priority, userId: {_expr: "auth.uid"}})
+}
+
+mutation UpdateTask($id: UUID!, $status: String!) @auth(level: USER) {
+  task_update(key: {id: $id}, data: {status: $status})
+}
+
+mutation DeleteTask($id: UUID!) @auth(level: USER) {
+  task_delete(key: {id: $id})
+}
+
+query GetTask($id: UUID!) @auth(level: USER) {
+  task(key: {id: $id}) {
+    title
+    status
+    priority
+  }
+}
+
+query ListMyTasks @auth(level: USER) {
+  tasks(where: {userId: {eq_expr: "auth.uid"}}) {
+    id
+    title
+    status
+  }
+}
+
+mutation CreateKnowledgeItem($title: String!, $content: String!, $tags: [String], $sourceConversationId: UUID) @auth(level: USER) {
+  knowledgeItem_insert(data: {title: $title, content: $content, tags: $tags, sourceConversationId: $sourceConversationId, userId: {_expr: "auth.uid"}})
+}
+
+mutation UpdateKnowledgeItem($id: UUID!, $title: String!, $content: String!) @auth(level: USER) {
+  knowledgeItem_update(key: {id: $id}, data: {title: $title, content: $content})
+}
+
+mutation DeleteKnowledgeItem($id: UUID!) @auth(level: USER) {
+  knowledgeItem_delete(key: {id: $id})
+}
+
+query GetKnowledgeItem($id: UUID!) @auth(level: USER) {
+  knowledgeItem(key: {id: $id}) {
+    title
+    content
+    tags
+  }
+}
+
+query ListMyKnowledgeItems @auth(level: USER) {
+  knowledgeItems(where: {userId: {eq_expr: "auth.uid"}}) {
+    id
+    title
+  }
+}

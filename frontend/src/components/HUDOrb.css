@@ -1,0 +1,335 @@
+.hud-orb {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 400px;
+  height: 400px;
+  flex-shrink: 0;
+  animation: fadeIn var(--t-slow);
+}
+
+/* ─── 3D Container ─────────────────────────── */
+.hud-orb__3d-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Core Glow ───────────────────────────── */
+.hud-orb__core-glow {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: var(--cyan);
+  filter: blur(60px);
+  opacity: 0.3;
+  z-index: 0;
+  transition: all var(--t-slow);
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+.hud-orb--listening .hud-orb__core-glow {
+  background: var(--green);
+  opacity: 0.5;
+  animation-duration: 2s;
+}
+
+.hud-orb--thinking .hud-orb__core-glow {
+  background: var(--amber);
+  opacity: 0.5;
+  animation-duration: 1.5s;
+}
+
+/* ─── 3D Rings ───────────────────────────── */
+.hud-orb__ring-3d {
+  position: absolute;
+  border-radius: 50%;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.hud-orb__ring-3d::before,
+.hud-orb__ring-3d::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid transparent;
+}
+
+.hud-orb__ring-3d--1 {
+  width: 220px;
+  height: 220px;
+  border: 2px solid rgba(0, 240, 255, 0.1);
+  border-top-color: rgba(0, 240, 255, 0.5);
+  border-bottom-color: rgba(0, 240, 255, 0.5);
+  animation: spin-x 12s linear infinite;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.1) inset;
+}
+
+.hud-orb__ring-3d--2 {
+  width: 260px;
+  height: 260px;
+  border: 1px dashed rgba(0, 240, 255, 0.3);
+  animation: spin-y 18s linear infinite reverse;
+}
+
+.hud-orb__ring-3d--3 {
+  width: 300px;
+  height: 300px;
+  border: 1px solid rgba(0, 240, 255, 0.05);
+  border-left-color: rgba(0, 240, 255, 0.4);
+  border-right-color: rgba(0, 240, 255, 0.4);
+  animation: spin-z 24s linear infinite;
+}
+
+.hud-orb__ring-3d--4 {
+  width: 340px;
+  height: 340px;
+  border: 2px dotted rgba(0, 240, 255, 0.2);
+  animation: spin-xy 20s linear infinite;
+}
+
+/* Accents on rings */
+.hud-orb__ring-accent {
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  background: var(--cyan);
+  border-radius: 50%;
+  box-shadow: 0 0 15px var(--cyan-glow);
+}
+
+.hud-orb__ring-accent--alt {
+  top: 50%;
+  left: -3px;
+  transform: translateY(-50%);
+}
+
+/* ─── Particles ───────────────────────────── */
+.hud-orb__particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hud-orb__particle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  background: var(--cyan);
+  border-radius: 50%;
+  box-shadow: 0 0 5px var(--cyan);
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate(var(--angle)) translateX(var(--radius));
+  animation: particle-fade var(--speed) linear infinite;
+  animation-delay: var(--delay);
+}
+
+.hud-orb--listening .hud-orb__particle { background: var(--green); box-shadow: 0 0 5px var(--green); }
+.hud-orb--thinking .hud-orb__particle { background: var(--amber); box-shadow: 0 0 5px var(--amber); }
+
+/* ─── Central Sphere ──────────────────────── */
+.hud-orb__sphere {
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, rgba(217, 70, 239, 0.8) 0%, rgba(0, 240, 255, 0.6) 40%, rgba(2, 4, 10, 0.9) 100%);
+  border: 1px solid rgba(217, 70, 239, 0.5);
+  animation: orb-breathe 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  transition: all var(--t-slow);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+  z-index: 3;
+}
+
+.hud-orb--listening .hud-orb__sphere {
+  background: radial-gradient(circle at 35% 30%, rgba(16, 185, 129, 0.8) 0%, rgba(16, 185, 129, 0.4) 40%, rgba(2, 4, 10, 0.9) 100%);
+  border-color: rgba(16, 185, 129, 0.6);
+  animation: orb-breathe-active 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.hud-orb--thinking .hud-orb__sphere {
+  background: radial-gradient(circle at 35% 30%, rgba(251, 191, 36, 0.8) 0%, rgba(251, 191, 36, 0.4) 40%, rgba(2, 4, 10, 0.9) 100%);
+  border-color: rgba(251, 191, 36, 0.6);
+  animation: orb-breathe-thinking 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.hud-orb__sphere-inner {
+  position: absolute;
+  inset: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, rgba(255,255,255,0.3) 0%, transparent 60%);
+}
+
+.hud-orb__sphere-glare {
+  position: absolute;
+  top: 10%;
+  left: 20%;
+  width: 40%;
+  height: 30%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  filter: blur(6px);
+  transform: rotate(-45deg);
+}
+
+/* ─── Pedestal ────────────────────────────── */
+.hud-orb__pedestal {
+  position: absolute;
+  bottom: 60px;
+  width: 160px;
+  height: 40px;
+  perspective: 500px;
+  z-index: 1;
+}
+
+.hud-orb__pedestal-ring {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) rotateX(70deg);
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 2px solid var(--magenta);
+  box-shadow: 0 0 20px var(--magenta-glow), inset 0 0 20px var(--magenta-glow);
+  animation: pulse-ring 3s infinite;
+}
+
+.hud-orb__pedestal-base {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: var(--cyan);
+  box-shadow: 0 0 15px var(--cyan), 0 0 30px var(--cyan);
+  border-radius: 50%;
+  filter: blur(2px);
+}
+
+/* ─── Status label ────────────────────────── */
+.hud-orb__status {
+  position: absolute;
+  bottom: 25px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 4;
+}
+
+.hud-orb__status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+  animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  transition: background var(--t-normal);
+}
+
+.hud-orb--listening .hud-orb__status-dot { background: var(--green); }
+.hud-orb--thinking .hud-orb__status-dot { background: var(--amber); }
+
+.hud-orb__status-text {
+  font-size: 11px;
+  letter-spacing: 5px;
+  color: var(--text-secondary);
+  transition: color var(--t-normal);
+  text-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.hud-orb--listening .hud-orb__status-text { color: var(--green); text-shadow: 0 0 10px var(--green-glow); }
+.hud-orb--thinking .hud-orb__status-text { color: var(--amber); text-shadow: 0 0 10px rgba(251, 191, 36, 0.4); }
+
+/* ─── Arc bars / Audio Visualizer ──────────── */
+.hud-orb__arcs {
+  position: absolute;
+  bottom: -5px;
+  display: flex;
+  gap: 5px;
+  align-items: flex-end;
+  z-index: 4;
+}
+
+.hud-orb__arc-bar {
+  width: 3px;
+  background: var(--cyan);
+  border-radius: 2px;
+  opacity: 0.4;
+  animation: wave-bar 1.2s ease-in-out infinite alternate;
+}
+
+.hud-orb--listening .hud-orb__arc-bar { 
+  opacity: 0.9; 
+  background: var(--green); 
+  animation-duration: 0.5s; 
+}
+.hud-orb--thinking .hud-orb__arc-bar { 
+  opacity: 0.7; 
+  background: var(--amber); 
+  animation-duration: 0.8s;
+}
+
+/* ─── Keyframes ───────────────────────────── */
+@keyframes spin-x {
+  0% { transform: rotateX(0deg) rotateY(45deg) rotateZ(0deg); }
+  100% { transform: rotateX(360deg) rotateY(45deg) rotateZ(360deg); }
+}
+
+@keyframes spin-y {
+  0% { transform: rotateX(60deg) rotateY(0deg) rotateZ(0deg); }
+  100% { transform: rotateX(60deg) rotateY(360deg) rotateZ(360deg); }
+}
+
+@keyframes spin-z {
+  0% { transform: rotateX(75deg) rotateY(20deg) rotateZ(0deg); }
+  100% { transform: rotateX(75deg) rotateY(20deg) rotateZ(360deg); }
+}
+
+@keyframes spin-xy {
+  0% { transform: rotateX(30deg) rotateY(60deg) rotateZ(0deg); }
+  100% { transform: rotateX(30deg) rotateY(60deg) rotateZ(-360deg); }
+}
+
+@keyframes particle-fade {
+  0% { opacity: 0; transform: translate(-50%, -50%) rotate(var(--angle)) translateX(var(--radius)) scale(0); }
+  50% { opacity: 0.8; transform: translate(-50%, -50%) rotate(var(--angle)) translateX(calc(var(--radius) * 1.5)) scale(1.5); }
+  100% { opacity: 0; transform: translate(-50%, -50%) rotate(var(--angle)) translateX(calc(var(--radius) * 2)) scale(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.2); }
+}
+
+@keyframes orb-breathe-active {
+  0%, 100% { box-shadow: 0 0 50px rgba(16, 185, 129, 0.4), 0 0 100px rgba(16, 185, 129, 0.1), inset 0 0 50px rgba(16, 185, 129, 0.2); transform: scale(1); }
+  50% { box-shadow: 0 0 70px rgba(16, 185, 129, 0.7), 0 0 140px rgba(16, 185, 129, 0.3), inset 0 0 70px rgba(16, 185, 129, 0.4); transform: scale(1.05); }
+}
+
+@keyframes orb-breathe-thinking {
+  0%, 100% { box-shadow: 0 0 50px rgba(251, 191, 36, 0.4), 0 0 100px rgba(251, 191, 36, 0.1), inset 0 0 50px rgba(251, 191, 36, 0.2); transform: scale(1); }
+  50% { box-shadow: 0 0 70px rgba(251, 191, 36, 0.7), 0 0 140px rgba(251, 191, 36, 0.3), inset 0 0 70px rgba(251, 191, 36, 0.4); transform: scale(1.03); }
+}
+
+@keyframes wave-bar {
+  0% { transform: scaleY(0.5); opacity: 0.3; }
+  100% { transform: scaleY(1.5); opacity: 1; }
+}

@@ -1,0 +1,138 @@
+.status-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--statusbar-h);
+  padding: 0 20px;
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.status-bar__left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.status-bar__logo {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: var(--cyan);
+  text-shadow: 0 0 20px var(--cyan-glow);
+}
+
+.status-bar__logo-j {
+  color: #fff;
+}
+
+.status-bar__version {
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  padding: 2px 6px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+
+.status-bar__center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.status-bar__time {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 2px;
+  line-height: 1.2;
+}
+
+.status-bar__date {
+  font-size: 9px;
+  color: var(--text-secondary);
+  letter-spacing: 2px;
+}
+
+.status-bar__right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.status-bar__theme-toggle {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 6px;
+  transition: all var(--t-fast);
+}
+
+.status-bar__theme-toggle:hover {
+  color: var(--cyan);
+  background: var(--glass-medium);
+  box-shadow: 0 0 10px var(--cyan-glow);
+}
+
+.status-bar__metric {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.status-bar__metric-label {
+  font-size: 9px;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+}
+
+.status-bar__metric-value {
+  font-size: 12px;
+  color: var(--text-secondary);
+  letter-spacing: 1px;
+}
+
+.status-bar__divider {
+  width: 1px;
+  height: 24px;
+  background: var(--border);
+}
+
+.status-bar__status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: color var(--t-normal);
+}
+
+.status-bar__status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  animation: orb-breathe 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.status-bar__status-label {
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+.status-bar__scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cyan-dim), transparent);
+  bottom: 0;
+  opacity: 0.4;
+}

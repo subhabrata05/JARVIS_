@@ -1,0 +1,35 @@
+type User @table {
+  email: String!
+  displayName: String!
+  preferences: String # Representing JSON as String
+}
+
+type Conversation @table {
+  title: String!
+  createdAt: Timestamp!
+  user: User!
+}
+
+type Message @table {
+  role: String!
+  content: String!
+  createdAt: Timestamp!
+  conversation: Conversation!
+}
+
+type Task @table {
+  title: String!
+  status: String!
+  createdAt: Timestamp!
+  dueDate: Date
+  priority: Int
+  user: User!
+}
+
+type KnowledgeItem @table {
+  title: String!
+  content: String!
+  tags: [String]
+  sourceConversation: Conversation
+  user: User!
+}

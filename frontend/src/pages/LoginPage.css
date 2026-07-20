@@ -1,0 +1,475 @@
+/* ════════════════════════════════════════════
+   JARVIS AI — Login Page (Complete Redesign)
+   ════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@700;900&display=swap');
+
+/* ─── Root ──────────────────────────────── */
+.lp-root {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at 30% 50%, #04122a 0%, #020a1a 40%, #010810 100%);
+  font-family: 'Inter', sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ─── Background ─────────────────────────── */
+.lp-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.lp-bg__glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.35;
+}
+.lp-bg__glow--left {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(0, 100, 220, 0.6), transparent 70%);
+  top: 10%;
+  left: -10%;
+  animation: glow-pulse 6s ease-in-out infinite;
+}
+.lp-bg__glow--right {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(0, 140, 255, 0.4), transparent 70%);
+  top: 20%;
+  right: -5%;
+  animation: glow-pulse 8s ease-in-out infinite reverse;
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.25; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.05); }
+}
+
+/* Floating nodes */
+.lp-node {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--s);
+  height: var(--s);
+  border-radius: 50%;
+  background: rgba(80, 180, 255, 0.7);
+  box-shadow: 0 0 8px rgba(80, 180, 255, 0.5);
+  animation: node-twinkle var(--d) ease-in-out infinite alternate;
+}
+
+@keyframes node-twinkle {
+  0% { opacity: 0.1; transform: scale(0.8); }
+  100% { opacity: 0.9; transform: scale(1.3); }
+}
+
+/* SVG connection lines */
+.lp-bg__lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Neural brain shape */
+.lp-brain {
+  position: absolute;
+  right: -2%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 55vw;
+  height: 70vh;
+  background:
+    radial-gradient(ellipse at 60% 40%, rgba(0, 130, 255, 0.18) 0%, transparent 60%),
+    radial-gradient(ellipse at 40% 65%, rgba(0, 80, 200, 0.12) 0%, transparent 55%);
+  border-radius: 50% 45% 55% 40% / 45% 50% 55% 50%;
+  border: 1px solid rgba(0, 120, 255, 0.08);
+  box-shadow:
+    inset 0 0 80px rgba(0, 100, 255, 0.06),
+    0 0 120px rgba(0, 100, 255, 0.04);
+  animation: brain-breathe 8s ease-in-out infinite;
+}
+
+@keyframes brain-breathe {
+  0%, 100% { opacity: 0.7; transform: translateY(-50%) scale(1); }
+  50% { opacity: 1; transform: translateY(-50%) scale(1.02); }
+}
+
+/* ─── Outer Wrapper ──────────────────────── */
+.lp-wrap {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  max-width: 520px;
+  padding: 20px;
+}
+
+/* ─── Logo ───────────────────────────────── */
+.lp-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: slide-down 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.lp-logo__badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1a7fff, #0050cc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px;
+  font-weight: 900;
+  color: white;
+  box-shadow: 0 0 20px rgba(0, 120, 255, 0.5), 0 0 40px rgba(0, 80, 200, 0.3);
+  border: 2px solid rgba(255,255,255,0.2);
+}
+
+.lp-logo__text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 2px;
+  text-shadow: 0 0 20px rgba(80, 160, 255, 0.4);
+}
+
+.lp-logo__text strong {
+  color: #4da8ff;
+}
+
+/* ─── Card ───────────────────────────────── */
+.lp-card {
+  width: 100%;
+  background: rgba(6, 18, 42, 0.65);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 40px 36px 32px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255,255,255,0.05) inset,
+    0 1px 0 rgba(255,255,255,0.12) inset;
+  animation: card-reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition: border-color 0.3s;
+}
+
+.lp-card--error {
+  border-color: rgba(255, 60, 60, 0.5);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 30px rgba(255, 60, 60, 0.15);
+  animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes card-reveal {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes slide-down {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+/* ─── Form ───────────────────────────────── */
+.lp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.lp-form__title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 2px;
+  text-align: center;
+}
+
+.lp-form__subtitle {
+  font-size: 14px;
+  color: rgba(180, 200, 230, 0.7);
+  text-align: center;
+  margin: 0 0 8px;
+}
+
+/* ─── Fields ─────────────────────────────── */
+.lp-field {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 0 16px;
+  transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+}
+
+.lp-field:focus-within {
+  border-color: rgba(0, 140, 255, 0.7);
+  background: rgba(0, 100, 255, 0.06);
+  box-shadow: 0 0 0 3px rgba(0, 120, 255, 0.15);
+}
+
+.lp-field__icon {
+  width: 18px;
+  height: 18px;
+  color: rgba(180, 200, 230, 0.5);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+.lp-field__icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.lp-field input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #e8f0ff;
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  padding: 16px 12px;
+}
+
+.lp-field input::placeholder {
+  color: rgba(180, 200, 230, 0.35);
+}
+
+/* ─── Override browser autofill white background ─── */
+.lp-field input:-webkit-autofill,
+.lp-field input:-webkit-autofill:hover,
+.lp-field input:-webkit-autofill:focus,
+.lp-field input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 9999px rgba(6, 20, 50, 0.01) inset !important;
+  box-shadow: 0 0 0 9999px rgba(6, 20, 50, 0.01) inset !important;
+  -webkit-text-fill-color: #e8f0ff !important;
+  caret-color: #e8f0ff;
+  background-color: transparent !important;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+.lp-field__eye {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: rgba(180, 200, 230, 0.4);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+.lp-field__eye:hover { color: rgba(180, 200, 230, 0.8); }
+.lp-field__eye svg { width: 18px; height: 18px; }
+
+/* ─── Row (remember me / forgot) ────────── */
+.lp-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ─── Checkbox ───────────────────────────── */
+.lp-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: rgba(180, 200, 230, 0.7);
+  cursor: pointer;
+  user-select: none;
+}
+
+.lp-checkbox--full {
+  width: 100%;
+}
+
+.lp-checkbox input[type='checkbox'] {
+  width: 15px;
+  height: 15px;
+  accent-color: #1a7fff;
+  cursor: pointer;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/* ─── Link button ────────────────────────── */
+.lp-link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #4da8ff;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  padding: 0;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.lp-link:hover { color: #7dc2ff; text-decoration: underline; }
+
+/* ─── Error ──────────────────────────────── */
+.lp-error {
+  background: rgba(255, 60, 60, 0.12);
+  border: 1px solid rgba(255, 60, 60, 0.3);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #ff8080;
+  text-align: center;
+}
+
+/* ─── Primary Button ─────────────────────── */
+.lp-btn {
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  transition: all 0.25s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lp-btn--primary {
+  width: 100%;
+  padding: 16px;
+  font-size: 15px;
+  color: white;
+  background: linear-gradient(90deg, #1565ff 0%, #0095ff 100%);
+  box-shadow: 0 4px 24px rgba(0, 100, 255, 0.35);
+  margin-top: 4px;
+}
+
+.lp-btn--primary:hover:not(:disabled) {
+  background: linear-gradient(90deg, #1a6fff 0%, #00aaff 100%);
+  box-shadow: 0 6px 32px rgba(0, 120, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+.lp-btn--primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* ─── Spinner ────────────────────────────── */
+.lp-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ─── Divider ────────────────────────────── */
+.lp-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  color: rgba(180, 200, 230, 0.4);
+  margin: 4px 0;
+}
+.lp-divider::before,
+.lp-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ─── Social Buttons ─────────────────────── */
+.lp-social-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.lp-social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  color: rgba(220, 235, 255, 0.85);
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.lp-social-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.lp-social-btn__icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* ─── Switch ─────────────────────────────── */
+.lp-switch {
+  text-align: center;
+  font-size: 14px;
+  color: rgba(180, 200, 230, 0.6);
+  margin: 4px 0 0;
+}
+
+/* ─── Guest Button ───────────────────────── */
+.lp-guest-btn {
+  width: 100%;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: rgba(180, 200, 230, 0.4);
+  font-size: 11px;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 4px;
+}
+
+.lp-guest-btn:hover {
+  color: rgba(180, 200, 230, 0.7);
+  border-color: rgba(255, 255, 255, 0.15);
+}

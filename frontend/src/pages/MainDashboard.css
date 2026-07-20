@@ -1,0 +1,253 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  animation: fadeIn var(--t-slow);
+}
+
+.dashboard__body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.dashboard__main {
+  display: flex;
+  flex: 1;
+  gap: 0;
+  overflow: hidden;
+  background: rgba(2, 4, 10, 0.4);
+  backdrop-filter: blur(12px);
+  position: relative;
+}
+
+/* ─── Holographic Background FX ─────────────────── */
+.dashboard__main::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.05), transparent 40%),
+    radial-gradient(circle at 20% 80%, rgba(217, 70, 239, 0.05), transparent 30%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Left Panel (Stats) ────────────────────────── */
+
+.dashboard__left-panel {
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--border-bright);
+  padding: 0;
+  overflow: hidden;
+  background: var(--glass);
+  box-shadow: 10px 0 40px rgba(0, 0, 0, 0.6), inset -1px 0 20px rgba(0, 240, 255, 0.05);
+  z-index: 2;
+  position: relative;
+}
+
+/* Scanning line on left panel */
+.dashboard__left-panel::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--cyan);
+  box-shadow: 0 0 10px var(--cyan), 0 0 20px var(--cyan);
+  opacity: 0.5;
+  animation: laser-scan 4s linear infinite;
+  pointer-events: none;
+}
+
+/* ─── Center Panel (Orb) ────────────────────────── */
+
+.dashboard__center-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.dashboard__panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-bright);
+  background: linear-gradient(90deg, rgba(255,255,255,0.05), transparent);
+}
+
+.dashboard__panel-title {
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--text-primary);
+  animation: glitch-flicker 5s infinite;
+}
+
+.dashboard__panel-badge {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--cyan);
+  padding: 4px 10px;
+  border: 1px solid var(--cyan-glow);
+  border-radius: 12px;
+  background: rgba(0, 240, 255, 0.08);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
+}
+
+.dashboard__orb-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+  width: 100%;
+}
+
+/* ─── Stats ─────────────────────────────────── */
+
+.dashboard__stats {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.dashboard__stat {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 16px 24px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all var(--t-fast);
+  position: relative;
+}
+
+.dashboard__stat:last-child {
+  border-bottom: none;
+}
+
+.dashboard__stat:hover {
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: inset 2px 0 0 var(--magenta);
+}
+
+.dashboard__stat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.dashboard__stat-label {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--text-secondary);
+}
+
+.dashboard__stat-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 1px;
+}
+
+.dashboard__stat-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.dashboard__stat-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(90deg, var(--blue), var(--cyan), var(--magenta));
+  box-shadow: 0 0 10px var(--cyan);
+}
+
+.dashboard__stat-fill[data-level="danger"] {
+  background: linear-gradient(90deg, var(--amber), var(--red));
+  box-shadow: 0 0 10px var(--red);
+}
+
+.dashboard__stat-fill[data-level="warning"] {
+  background: linear-gradient(90deg, var(--green), var(--amber));
+  box-shadow: 0 0 10px var(--amber);
+}
+
+/* ─── Clear button ──────────────────────────── */
+
+.dashboard__clear-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 20px 24px;
+  padding: 12px 24px;
+  background: rgba(217, 70, 239, 0.1);
+  border: 1px solid var(--magenta-glow);
+  border-radius: 4px;
+  color: var(--magenta);
+  font-family: var(--font-hud);
+  font-size: 10px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all var(--t-normal);
+  text-transform: uppercase;
+}
+
+.dashboard__clear-btn:hover {
+  background: rgba(217, 70, 239, 0.2);
+  box-shadow: 0 0 15px var(--magenta-glow);
+  transform: translateY(-1px);
+}
+
+/* ─── Right Chat Panel ──────────────────────── */
+
+.dashboard__chat-panel {
+  width: 380px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-left: 1px solid var(--border-bright);
+  background: var(--glass);
+  backdrop-filter: blur(8px);
+  position: relative;
+  z-index: 2;
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.6), inset 1px 0 20px rgba(217, 70, 239, 0.05);
+}
+
+/* ─── Background grid ───────────────────────── */
+
+.dashboard__grid-bg {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: -1;
+  animation: grid-scroll 20s linear infinite;
+  transform: perspective(500px) rotateX(60deg) scale(2.5);
+  transform-origin: center top;
+}
