@@ -73,11 +73,22 @@ web_modules/
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variable files
+# Environment variable files — NEVER commit these, they contain secrets!
 .env
-.env.test
-.env.production
-.env.local
+.env.*
+!.env.example
+!.env.*.example
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+backend/.env
+backend/.env.*
+!backend/.env.example
+
+# Firebase — ensure service account keys are never committed
+**/firebase-adminsdk*.json
+**/serviceAccountKey.json
+
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
